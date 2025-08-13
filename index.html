@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convo</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #474746;
+      }
+      .project {
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: #fff;
+        font-size: 0.75rem;
+        opacity: 0.5;
+        margin: 0;
+        padding: 0.5rem;
+      }
+    </style>
+    <script type="module" src="js/chat-box.js"></script>
+  </head>
+  <body>
+    <p class="project">Convo</p>
+    <chat-box api-url="http://localhost:8720/v1/chat/completions"></chat-box>
+  </body>
+</html>
