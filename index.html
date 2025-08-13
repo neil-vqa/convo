@@ -9,27 +9,32 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         height: 100vh;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        background-color: #474746;
-      }
-      .project {
-        position: fixed;
-        top: 0;
-        left: 0;
-        color: #fff;
-        font-size: 0.75rem;
-        opacity: 0.5;
-        margin: 0;
-        padding: 0.5rem;
+        background-color: #ffffff;
       }
     </style>
     <script type="module" src="js/chat-box.js"></script>
+    <script type="module" src="js/chat-box-toggle.js"></script>
   </head>
   <body>
-    <p class="project">Convo</p>
-    <chat-box api-url="http://localhost:8720/v1/chat/completions"></chat-box>
+    <h1>Convo</h1>
+    <p>
+      A basic AI chat component implemented using
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">
+        Web Components
+      </a>
+      with simple global state management. Easily embed to your website as a
+      modal.
+    </p>
+    <chat-box
+      id="convo-chat-box"
+      api-url="http://localhost:8720/v1/chat/completions"
+      hidden
+    ></chat-box>
+    <chat-box-toggle controls="convo-chat-box"></chat-box-toggle>
   </body>
 </html>

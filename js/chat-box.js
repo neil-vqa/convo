@@ -19,27 +19,76 @@ template.innerHTML = `
       --button-disabled-text: #999;
 
       /* ----- COMPONENT STYLES ----- */
-      display: block;
+      display: flex;
+      position: fixed;
+      z-index: 99;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      border: 1px solid var(--border-color);
+    }
+
+    :host([hidden]) {
+      display: none;
+    }
+
+    #convo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 300px;
+      padding: 10px;
       border-radius: 8px;
-      padding: 16px;
-      width: 400px;
+      border: 1px solid var(--border-color);
       background-color: var(--component-background-color);
-      color: var(--text-color); /* Set default text color for the component */
+      color: var(--text-color);
+    }
+
+    #chat-header {
+      display: flex;
+      font-size: 1.2rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    #chat-header > p {
+      margin:0;
+      padding:0;
+    }
+
+    #chat-header > button {
+      margin:0;
+      padding:0;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--component-background-color);
+      border: solid #222 1px;
+      cursor: pointer;
+    }
+
+    #chat-header > button:hover {
+      opacity: 0.5
     }
 
     .chat-messages {
-      min-height: 200px;
-      max-height: 70vh;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 8px;
-      margin-bottom: 16px;
-      overflow-y: auto;
-      background-color: var(--background-color); /* Use the darkest background for the chat window */
       display: flex;
       flex-direction: column;
+      min-height: 200px;
+      max-height: 50vh;
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow-y: auto;
+      background-color: var(--background-color);
       gap: 8px;
     }
     
@@ -47,12 +96,13 @@ template.innerHTML = `
         padding: 6px 10px;
         border-radius: 12px;
         max-width: 80%;
+        margin: 6px;
     }
 
     .user-message {
         align-self: flex-end;
         background-color: var(--user-message-background);
-        color: #ffffff; /* White text looks best on the blue background */
+        color: #ffffff;
     }
 
     .assistant-message {
@@ -64,6 +114,7 @@ template.innerHTML = `
     #chat-form {
       display: flex;
       gap: 8px;
+      width: 100%;
     }
 
     #message-input {
@@ -72,8 +123,9 @@ template.innerHTML = `
       border-radius: 4px;
       padding: 8px;
       font-size: 1em;
-      background-color: var(--background-color); /* Match chat window background */
+      background-color: var(--background-color);
       color: var(--text-color);
+      width: 100%;
     }
 
     #message-input::placeholder {
@@ -101,11 +153,21 @@ template.innerHTML = `
     }
   </style>
 
-  <div class="chat-messages" id="chat-messages"></div>
-  <form id="chat-form">
-    <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required>
-    <button type="submit" id="send-button">Send</button>
-  </form>
+  <div id="convo-container">
+    <div id="chat-header">
+      <p>Convo</p>
+      <button type="button" id="chat-header-btn">
+        <svg data-slot="icon" aria-hidden="true" fill="none" stroke-width="1.5" stroke="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px">
+          <path d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <form id="chat-form">
+      <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required>
+      <button type="submit" id="send-button">Send</button>
+    </form>
+  </div>
 `;
 
 class ChatBox extends HTMLElement {
@@ -116,6 +178,7 @@ class ChatBox extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Get references to elements in the shadow DOM
+    this.chatHeaderBtn = this.shadowRoot.querySelector("#chat-header-btn");
     this.chatForm = this.shadowRoot.querySelector("#chat-form");
     this.messageInput = this.shadowRoot.querySelector("#message-input");
     this.sendButton = this.shadowRoot.querySelector("#send-button");
@@ -125,6 +188,10 @@ class ChatBox extends HTMLElement {
   // Called when the element is added to the DOM
   connectedCallback() {
     this.chatForm.addEventListener("submit", this.handleSubmit.bind(this));
+    this.chatHeaderBtn.addEventListener(
+      "click",
+      this.toggleChatVisible.bind(this)
+    );
     store.addEventListener("state-change", () => this.displayMessage());
   }
 
@@ -132,6 +199,10 @@ class ChatBox extends HTMLElement {
   disconnectedCallback() {
     this.chatForm.removeEventListener("submit", this.handleSubmit.bind(this));
     store.removeEventListener("state-change");
+  }
+
+  toggleChatVisible(event) {
+    this.hidden = true;
   }
 
   async handleSubmit(event) {
