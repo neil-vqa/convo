@@ -27,7 +27,7 @@ Easily embed to your website as a modal:
 </body>
 ```
 
-<div style="display:flex; gap:1rem">
-<img src="./convo_ss1.png">
-<img src="./convo_ss2.png">
+<div style="display:flex; gap:0.5rem;">
+<img style="width:300px;" src="./convo_ss1.png">
+<img style="width:300px;" src="./convo_ss2.png">
 </div>
