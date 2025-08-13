@@ -13,7 +13,7 @@ Easily embed to your website as a modal:
 <script type="module" src="js/chat-box-toggle.js"></script>
 ```
 
-3. Add the components to the body (i.e. `<chat-box>` and `<chat-box-toggle>`). Connect your local/cloud LLM by setting the URL in the `api-url` attribute of the `<chat-box>` component:
+3. Add the components to the body (i.e. `<chat-box>` and `<chat-box-toggle>`). Connect your local/cloud LLM by setting the URL (must be OpenAI-compatible API endpoint) in the `api-url` attribute of the `<chat-box>` component:
 
 ```html
 <body>
