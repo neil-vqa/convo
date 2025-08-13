@@ -1,3 +1,22 @@
+const botIcon = `
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#fff"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
+  <path d="M9.5 9h.01" />
+  <path d="M14.5 9h.01" />
+  <path d="M9.5 13a3.5 3.5 0 0 0 5 0" />
+</svg>
+`;
+
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
@@ -12,22 +31,27 @@ template.innerHTML = `
 
     button {
       border: none;
-      background-color: var(--accent-color, #007bff); /* Use theme color or a fallback */
+      background-color: var(--accent-color, #242424); /* Use theme color or a fallback */
       color: white;
-      border-radius: 4px;
-      padding: 10px 16px;
-      font-size: 1em;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: background-color 0.2s;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
     }
 
     button:hover {
-      background-color: var(--accent-color-hover, #0056b3);
+      background-color: var(--accent-color-hover,rgba(36, 36, 36, 0.8));
     }
   </style>
   
   <button>
-    <slot>Open Chat</slot>
+    <slot>${botIcon}</slot>
+    <span>Chat</span>
   </button>
 `;
 
