@@ -303,7 +303,6 @@ class ChatBox extends HTMLElement {
   }
 
   toggleLoading(isLoading) {
-    this.messageInput.disabled = isLoading;
     this.sendButton.disabled = isLoading;
     if (isLoading) {
       this.sendButton.innerHTML = waitIcon;
