@@ -42,6 +42,7 @@ template.innerHTML = `
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      margin: 0 8px 8px 0;
     }
 
     button:hover {
